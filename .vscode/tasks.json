@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+          "build",
+          "${workspaceFolder}/MusicLoopDeluxe.csproj",
+          "/property:GenerateFullPaths=true",
+          "/consoleloggerparameters:NoSummary"
+        ],
+        "problemMatcher": "$msCompile",
+        "group": {
+          "kind": "build",
+          "isDefault": true           
+        }
+      },
+      {
+        "label": "bump version",
+        "type": "shell",
+        "group": {
+            "kind": "build"
+        },
+        "command": "${workspaceFolder}/bump.sh patch MusicLoopDeluxe.csproj"
+    }
+    ]
+  }

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"todo-tree.general.statusBar": "total",
+		"todo-tree.tree.scanMode": "workspace",
+		"omnisharp.autoStart": false,
+		"omnisharp.useModernNet": false
+	}
+}

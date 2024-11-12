@@ -1,0 +1,13 @@
+{
+    "editor.scrollBeyondLastLine": false,
+    "todo-tree.general.enableFileWatcher": true,
+    "todo-tree.general.statusBar": "total",
+    "todo-tree.tree.scanMode": "workspace",
+    "files.exclude": {
+		"obj": true
+  },
+  "omnisharp.autoStart": false,
+  "omnisharp.useModernNet": false,
+  "C_Cpp.default.compilerPath": "/usr/bin/gcc-13"
+
+}
