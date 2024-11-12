@@ -9,6 +9,7 @@
     <UpdateKeys>GitHub:thecosmicslug/MusicLoopDeluxe-StardewMod</UpdateKeys>
     <MinimumApiVersion>auto</MinimumApiVersion>
     <MinimumGameVersion>auto</MinimumGameVersion>
+    <Version_AppendConfiguration>false</Version_AppendConfiguration>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>MusicLoopDeluxe</RootNamespace>

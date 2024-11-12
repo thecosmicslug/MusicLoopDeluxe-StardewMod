@@ -18,6 +18,18 @@
         }
       },
       {
+          "label": "build Release",
+          "command": "dotnet",
+          "type": "process",
+          "args": [
+              "build",
+              "${workspaceFolder}/MusicLoopDeluxe.csproj",
+              "-c",
+              "Release"
+          ],
+          "problemMatcher": "$msCompile"
+      },   
+      {
         "label": "bump version",
         "type": "shell",
         "group": {

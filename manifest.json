@@ -9,10 +9,10 @@
   "UniqueID": "TheCosmicSlug.MusicLoopDeluxe",
   "Name": "MusicLoopDeluxe",
   "Author": "TheCosmicSlug",
-  "Version": "0.9.2-Debug",
+  "Version": "0.9.2",
   "Description": "Loops Game Music + Extras.",
   "MinimumApiVersion": "4.1",
-  "MinimumGameVersion": "1.6.13",
+  "MinimumGameVersion": "1.6.14",
   "EntryDll": "MusicLoopDeluxe.dll",
   "UpdateKeys": [
     "GitHub:thecosmicslug/MusicLoopDeluxe-StardewMod"
