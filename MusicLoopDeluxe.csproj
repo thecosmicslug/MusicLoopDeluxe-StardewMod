@@ -4,16 +4,14 @@
     <BaseManifest>new</BaseManifest>
     <UniqueId>TheCosmicSlug.MusicLoopDeluxe</UniqueId>
     <Name>MusicLoopDeluxe</Name>
+    <Version>1.0.0</Version>
     <Authors>TheCosmicSlug</Authors>
     <Description>Loops Game Music + Extras.</Description>
     <UpdateKeys>GitHub:thecosmicslug/MusicLoopDeluxe-StardewMod</UpdateKeys>
     <MinimumApiVersion>auto</MinimumApiVersion>
     <MinimumGameVersion>auto</MinimumGameVersion>
     <Version_AppendConfiguration>false</Version_AppendConfiguration>
-  </PropertyGroup>
-  <PropertyGroup>
     <RootNamespace>MusicLoopDeluxe</RootNamespace>
-    <Version>0.9.2</Version>
     <SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</SourceRevisionId>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <TargetFramework>net6.0</TargetFramework>
