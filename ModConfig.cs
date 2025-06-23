@@ -11,6 +11,9 @@ namespace MusicLoopDeluxe
         //* Loop Music
         public bool LoopMusic = true;
 
+        //* Sounds of Rain
+        public bool RainTracks = true;
+
         //* Debug Logging
         public bool DebugLogging = false;
 

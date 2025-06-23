@@ -1,14 +1,24 @@
-﻿//* Orinally Based on SoundLoopMod (https://git.strelkasaurus.com/strelkasaurus/stardew-soundloop-mod)
+﻿//* ========[MusicModDeluxe}========
+//* This mod is a collection of all my favourite music mods that have been left behind in the game updates.
+//* All original links can be found below, I could not do this without mod authors sharing the code.
+//* And of course, feel free to share, contribute, improve!
+//* 
+//* Originally Based on SoundLoopMod (https://git.strelkasaurus.com/strelkasaurus/stardew-soundloop-mod)
 //* PauseInMenu option based on https://github.com/mustafa-git/StopSoundsWhenAltTabbed
 //* Now playing option from https://github.com/emurphy42/NowPlaying
+//* Rain tracks originally from https://www.nexusmods.com/stardewvalley/mods/4242
+
 using System;
+using System.IO;
 using System.Globalization;
 using System.Reflection;
+using System.Collections.Generic;
 
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Locations;
 using StardewValley.Objects;
+using StardewValley.GameData;
 
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -28,25 +38,33 @@ namespace MusicLoopDeluxe
         private bool volumeSaved = false;
         private ModConfig Config = null!;
         private const string WoodsName = "Woods";
+        private List<string> RainList = new List<string>();
 
+        public override void Entry(IModHelper helper)
+        {
+            //* Build the replacement rain tracklist
+            this.RainList = new List<string>();
+            this.RainList.Add(Path.Combine(this.Helper.DirectoryPath, "assets", "CTSewer.ogg"));
+            this.RainList.Add(Path.Combine(this.Helper.DirectoryPath, "assets", "Overworld.ogg"));
+            this.RainList.Add(Path.Combine(this.Helper.DirectoryPath, "assets", "ZoZo.ogg"));
 
-        public override void Entry(IModHelper helper){
-
-            //* Setup Hooks
+            //* Setup SMAPI Hooks
             helper.Events.GameLoop.UpdateTicking += this.OnUpdateTicking;
             helper.Events.GameLoop.OneSecondUpdateTicking += this.OnSecondUpdateTicking;
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
             helper.Events.Player.Warped += this.OnPlayerWarped;
-            helper.Events.Input.ButtonPressed  +=  this.OnButtonPressed;
-            
+            helper.Events.Input.ButtonPressed += this.OnButtonPressed;
+            helper.Events.Content.AssetRequested += OnAssetRequested;
+
             //* Load Config
             this.Config = this.Helper.ReadConfig<ModConfig>();
 
             //* Show debug info etc.
             var buildTime = GetBuildDate(Assembly.GetExecutingAssembly());
             buildTime = buildTime.ToLocalTime();
-            this.Monitor.Log("MusicLoopDeluxe v" + GetType().Assembly.GetName().Version.ToString(3) +" (" + Constants.TargetPlatform + ") loaded.", LogLevel.Info);
-            if(this.Config.DebugLogging){
+            this.Monitor.Log("MusicLoopDeluxe v" + GetType().Assembly.GetName().Version.ToString(3) + " (" + Constants.TargetPlatform + ") loaded.", LogLevel.Info);
+            if (this.Config.DebugLogging)
+            {
                 this.Monitor.Log("Binary Compiled: " + buildTime.ToString("d/M/yyyy h:mm tt"), LogLevel.Info);
             }
 
@@ -56,8 +74,8 @@ namespace MusicLoopDeluxe
             ObjectPatches.SetTracksToIgnore();
             ObjectPatches.SetTrackNamesToReplaceWithID();
 
-            var harmony = new Harmony(this.ModManifest.UniqueID);
             //* detect when music changes
+            var harmony = new Harmony(this.ModManifest.UniqueID);
             harmony.Patch(
                original: AccessTools.Method(typeof(StardewValley.Game1), nameof(StardewValley.Game1.UpdateRequestedMusicTrack)),
                postfix: new HarmonyMethod(typeof(ObjectPatches), nameof(ObjectPatches.Game1_UpdateRequestedMusicTrack_Postfix))
@@ -99,6 +117,14 @@ namespace MusicLoopDeluxe
                 tooltip: () => "Loop music to prevent silence.",
                 getValue: () => this.Config.LoopMusic,
                 setValue: value => this.Config.LoopMusic = value
+            );
+
+            configMenu.AddBoolOption(
+                mod: this.ModManifest,
+                name: () => "Add Rain Tracks",
+                tooltip: () => "Include 'Sounds of Rain' tracks.",
+                getValue: () => this.Config.RainTracks,
+                setValue: value => this.Config.RainTracks = value
             );
 
             configMenu.AddBoolOption(
@@ -265,6 +291,37 @@ namespace MusicLoopDeluxe
             }
 
             ModCheckMenu();
+        }
+
+        private void OnAssetRequested(object sender, AssetRequestedEventArgs e){
+
+            if (Config.RainTracks)
+            {
+                //* Add rain music.
+                if (e.NameWithoutLocale.IsEquivalentTo("Data/AudioChanges")){
+                    
+                    if (Config.DebugLogging){
+                        this.Monitor.Log("OnAssetRequested() - Data/AudioChanges", LogLevel.Debug);
+                    }
+
+                    //* Overwrite rain track
+                    e.Edit(asset =>
+                    {
+                        var data = asset.AsDictionary<string, AudioCueData>().Data;
+                        data["rain"] = new AudioCueData()
+                        {
+                            Id = "rain",
+                            Category = "Ambient",
+                            Looped = true,
+                            StreamedVorbis = false,
+                            FilePaths = this.RainList,
+                        };
+
+                    });
+
+                }
+            }
+
         }
 
         void ModCheckMenu(){

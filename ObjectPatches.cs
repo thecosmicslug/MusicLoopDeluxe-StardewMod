@@ -126,7 +126,7 @@ namespace MusicLoopDeluxe
                 }
                 Game1.showGlobalMessage(string.Format(Config.NowPlayingFormat, songTitle, songID));
 
-                //* Update cooldown timer for next announcement of same track
+                //* Update cool-down timer for next announcement of same track
                 WhenToReannounceTrack[songID] = DateTime.Now.AddSeconds(Config.RepeatDelay);
             }
             catch (Exception ex)
