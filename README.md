@@ -1,7 +1,5 @@
-<p align="center" width="100%">
-# MusicLoopDeluxe - Stardew Valley Music Mod.
-</p>
 
+# MusicLoopDeluxe - Stardew Valley Music Mod.
 
 ## Introduction
 This mod is a combination of 4 other music related mods for Stardew Valley, by combining them I intend for them to be easier to maintain.
